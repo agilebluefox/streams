@@ -9,6 +9,7 @@ let cache = new Cache('alpha1');
 let rand = new RandomNumber;
 let filter = new Filter;
 
+// print out the letters of the alphabet
 // alpha.on('data', function (chunk) {
 //     console.log(chunk.toString());
 // });
@@ -25,16 +26,16 @@ rand.pipe(filter).pipe(cache);
 // perform a function when the read event is triggered
 rand.on('data', (chunk)  => {
     // print the list of numbers in the buffer
-    console.log(chunk.toString());
+    console.log(chunk.toString()); // ie. 123 345 234 567
 });
 
 // perform a function when the finish event occurs on the writeable instance
 cache.on('finish', () => {
     for (let key in Cache.store) {
         // print the key and the buffer data stored as the value
-        console.log(key, ':', Cache.store[key]);
+        console.log(key, ':', Cache.store[key]); // prints the buffer contents in hex
         let b = Cache.store[key];
         // print the numbers in the buffer after being filtered
-        console.log(b.toString('utf8'));
+        console.log(b.toString('utf8')); // ie. 123345234
     }
 });
