@@ -12,9 +12,11 @@ class Cache extends Writable {
     }
 
     _write(chunk, encoding, callback) {
+        // if no data exists in the buffer...
         if (!this._value) {
             this._value = chunk;
         }
+        // if data is already present in the buffer...
         else {
             this._value = Buffer.concat([this._value, chunk]);
         }

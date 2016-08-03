@@ -12,11 +12,13 @@ class RandomNumber extends Readable {
     }
 
     _read() {
+        // get some random numbers and store in the buffer
         for (let i = 0; i < this.length; i++) {
             let number = Math.floor(Math.random() * (this.diff)) + this.min;
             let buf = Buffer.from(number.toString(), 'utf8');
             this.push(buf);
         }
+        // mark the end of the readable data
         this.push(null);
     }
 }

@@ -28,11 +28,13 @@ var RandomNumber = function (_Readable) {
     _createClass(RandomNumber, [{
         key: '_read',
         value: function _read() {
+            // get some random numbers and store in the buffer
             for (var i = 0; i < this.length; i++) {
                 var number = Math.floor(Math.random() * this.diff) + this.min;
                 var buf = Buffer.from(number.toString(), 'utf8');
                 this.push(buf);
             }
+            // mark the end of the readable data
             this.push(null);
         }
     }]);
