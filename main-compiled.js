@@ -4,6 +4,8 @@ var Alphabet = require('./alphabet');
 var RandomNumber = require('./number');
 var Cache = require('./cache');
 var Filter = require('./filter');
+var StringDecoder = require('string_decoder').StringDecoder;
+var decoder = new StringDecoder('utf8');
 var alpha = new Alphabet();
 var cache = new Cache('alpha1');
 var rand = new RandomNumber();
@@ -35,8 +37,34 @@ cache.on('finish', function () {
         // print the key and the buffer data stored as the value
         console.log(key, ':', Cache.store[key]); // prints the buffer contents in hex
         var b = Cache.store[key];
-        // print the numbers in the buffer after being filtered
-        console.log(b.toString('utf8')); // ie. 123345234
+        var _iteratorNormalCompletion = true;
+        var _didIteratorError = false;
+        var _iteratorError = undefined;
+
+        try {
+            for (var _iterator = b.values()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                var value = _step.value;
+
+                console.log(String.fromCharCode(value)); // prints single number, not element
+            }
+            // print the numbers in the buffer after being filtered
+            // console.log(b.toString('utf8')); // ie. 123345234
+        } catch (err) {
+            _didIteratorError = true;
+            _iteratorError = err;
+        } finally {
+            try {
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                    _iterator.return();
+                }
+            } finally {
+                if (_didIteratorError) {
+                    throw _iteratorError;
+                }
+            }
+        }
+
+        decoder.write(b); //prints one number at a time
     }
 });
 

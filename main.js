@@ -4,6 +4,8 @@ const Alphabet = require('./alphabet');
 const RandomNumber = require('./number');
 const Cache = require('./cache');
 const Filter = require('./filter');
+const StringDecoder = require('string_decoder').StringDecoder;
+const decoder = new StringDecoder('utf8');
 let alpha = new Alphabet();
 let cache = new Cache('alpha1');
 let rand = new RandomNumber;
@@ -35,7 +37,11 @@ cache.on('finish', () => {
         // print the key and the buffer data stored as the value
         console.log(key, ':', Cache.store[key]); // prints the buffer contents in hex
         let b = Cache.store[key];
+        for (let value of b.values()) {
+            console.log(String.fromCharCode(value)); // prints single number, not element
+        }
         // print the numbers in the buffer after being filtered
-        console.log(b.toString('utf8')); // ie. 123345234
+        // console.log(b.toString('utf8')); // ie. 123345234
+        decoder.write(b); //prints one number at a time
     }
 });
